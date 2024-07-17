@@ -1,8 +1,8 @@
-import { Github } from "lucide-react";
+import { Youtube } from "lucide-react";
 
 import { Button } from "@acme/ui/button";
 
-import { signInWithGithub } from "~/app/auth/actions";
+import { signInWithGoogle } from "~/app/auth/actions";
 
 export const Social = () => {
   return (
@@ -11,11 +11,11 @@ export const Social = () => {
         size="lg"
         className="flex w-full flex-row items-center justify-center gap-2"
         variant="outline"
-        formAction={signInWithGithub}
+        formAction={signInWithGoogle}
       >
-        <Github size={20} />
+        <Youtube size={20} />
         <span className="font-medium text-muted-foreground">
-          Continue with GitHub
+          Continue with Google
         </span>
       </Button>
     </form>
