@@ -1,0 +1,1 @@
+ALTER TABLE "t3turbo_profile" ALTER COLUMN "image" SET DATA TYPE text;

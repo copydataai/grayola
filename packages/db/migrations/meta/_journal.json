@@ -15,6 +15,13 @@
       "when": 1721237808806,
       "tag": "0001_productive_iron_monger",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1721242543850,
+      "tag": "0002_big_silver_centurion",
+      "breakpoints": true
     }
   ]
 }
