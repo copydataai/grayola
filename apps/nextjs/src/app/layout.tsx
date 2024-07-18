@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   ),
   title: "Grayola",
   description: "Design as a Service, quick releases",
+  icons: [{ rel: "icon", url: "/origami.svg" }],
   openGraph: {
     title: "Grayola",
     description: "dashboard for a plataform to manage design as a service",
