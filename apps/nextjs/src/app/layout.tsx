@@ -18,18 +18,18 @@ export const metadata: Metadata = {
       ? "https://turbo.t3.gg"
       : "http://localhost:3000",
   ),
-  title: "T3 Turbo x Supabase",
-  description: "Simple monorepo with shared backend for web & mobile apps",
+  title: "Grayola",
+  description: "Design as a Service, quick releases",
   openGraph: {
-    title: "T3 Turbo x Supabase",
-    description: "Simple monorepo with shared backend for web & mobile apps",
-    url: "https://github.com/supabase-community/create-t3-turbo",
-    siteName: "T3 Turbo x Supabase",
+    title: "Grayola",
+    description: "dashboard for a plataform to manage design as a service",
+    url: "https://github.com/copydataai/grayola",
+    siteName: "Grayola Design as a Service",
   },
   twitter: {
     card: "summary_large_image",
-    site: "@jullerino",
-    creator: "@jullerino",
+    site: "@copydataaireal",
+    creator: "@copydataaireal",
   },
 };
 
