@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { text, uuid, varchar, text } from "drizzle-orm/pg-core";
+import { text, uuid, varchar } from "drizzle-orm/pg-core";
 
 import { createTable } from "./_table";
 import { Users } from "./auth";
