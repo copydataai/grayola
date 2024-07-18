@@ -9,7 +9,9 @@ export async function Navbar() {
   return (
     <nav className="flex w-1/2 items-center justify-between gap-4">
       <div>
-        <Origami size={28} />
+        <Link href="/">
+          <Origami size={28} />
+        </Link>
       </div>
       <div>
         <Link href="/auth/login" asChild>
