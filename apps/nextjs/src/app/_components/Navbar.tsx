@@ -14,7 +14,7 @@ export async function Navbar() {
         </Link>
       </div>
       <div>
-        <Link href="/auth/login" asChild>
+        <Link href="/auth/signin" asChild>
           <Button
             variant="outline"
             className="border-x-1 border-t-1 border-b-4 border-x-black border-b-black border-t-black bg-gradient-to-r from-emerald-500 to-sky-500 hover:from-pink-500 hover:to-yellow-500"
