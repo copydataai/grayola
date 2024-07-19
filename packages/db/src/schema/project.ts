@@ -15,11 +15,9 @@ import { Profile } from "./profile";
 
 export const Project = createTable("projects", {
     id: uuid("id").primaryKey().defaultRandom(),
-    title: varchar("name", { length: 256 }).notNull(),
-    description: text("description").notNull(),
-    customerId: uuid("customer_id")
-        .notNull()
-        .references(() => Profile.id),
+    name: varchar("name", { length: 256 }),
+    description: text("description"),
+    customerId: uuid("customer_id").references(() => Profile.id),
     createdAt: timestamp("created_at")
         .default(sql`now()`)
         .notNull(),
@@ -30,16 +28,17 @@ export const Project = createTable("projects", {
 });
 
 export const CreateProjectSchema = createInsertSchema(Project, {
-    title: z.string().max(256),
+    name: z.string().max(256, { message: "Name is too long" }),
     description: z.string(),
 }).omit({
     id: true,
+    customerId: true,
     ...timestamps,
 });
 
 export const Role = createTable("role", {
     id: uuid("id").primaryKey().defaultRandom(),
-    name: varchar("name", { length: 256 }).notNull(),
+    name: varchar("name", { length: 256 }),
 });
 
 export const ProjectUsers = createTable(
@@ -76,7 +75,7 @@ export const ProjectUsers = createTable(
 
 export const Files = createTable("files", {
     id: uuid("id").primaryKey().defaultRandom(),
-    path: varchar("path", { length: 256 }).notNull(),
+    path: varchar("path", { length: 256 }),
     projectId: uuid("project_id")
         .notNull()
         .references(() => Project.id),
