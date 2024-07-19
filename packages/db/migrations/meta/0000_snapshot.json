@@ -1,7 +1,5 @@
 {
-  "id": "cdc5fe6f-b85f-4925-84bb-e550ff6f1f2a",
-  "prevId": "00000000-0000-0000-0000-000000000000",
-  "version": "6",
+  "version": "7",
   "dialect": "postgresql",
   "tables": {
     "auth.users": {
@@ -54,12 +52,16 @@
         "t3turbo_profile_id_users_id_fk": {
           "name": "t3turbo_profile_id_users_id_fk",
           "tableFrom": "t3turbo_profile",
+          "columnsFrom": [
+            "id"
+          ],
           "tableTo": "users",
           "schemaTo": "auth",
-          "columnsFrom": ["id"],
-          "columnsTo": ["id"],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -113,11 +115,15 @@
         "t3turbo_post_author_id_t3turbo_profile_id_fk": {
           "name": "t3turbo_post_author_id_t3turbo_profile_id_fk",
           "tableFrom": "t3turbo_post",
+          "columnsFrom": [
+            "author_id"
+          ],
           "tableTo": "t3turbo_profile",
-          "columnsFrom": ["author_id"],
-          "columnsTo": ["id"],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -127,8 +133,10 @@
   "enums": {},
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "cdc5fe6f-b85f-4925-84bb-e550ff6f1f2a",
+  "prevId": "00000000-0000-0000-0000-000000000000"
 }

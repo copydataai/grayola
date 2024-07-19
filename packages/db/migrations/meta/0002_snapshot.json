@@ -1,7 +1,5 @@
 {
-  "id": "3c052907-ef0e-49ef-806b-bd22d0e78410",
-  "prevId": "5b269acc-f2a3-41cf-b72f-ab04d4ffb1b4",
-  "version": "6",
+  "version": "7",
   "dialect": "postgresql",
   "tables": {
     "auth.users": {
@@ -54,16 +52,16 @@
         "t3turbo_profile_id_users_id_fk": {
           "name": "t3turbo_profile_id_users_id_fk",
           "tableFrom": "t3turbo_profile",
-          "tableTo": "users",
-          "schemaTo": "auth",
           "columnsFrom": [
             "id"
           ],
+          "tableTo": "users",
+          "schemaTo": "auth",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -73,8 +71,10 @@
   "enums": {},
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "3c052907-ef0e-49ef-806b-bd22d0e78410",
+  "prevId": "5b269acc-f2a3-41cf-b72f-ab04d4ffb1b4"
 }

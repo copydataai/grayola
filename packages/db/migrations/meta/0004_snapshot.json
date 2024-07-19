@@ -1,7 +1,5 @@
 {
-  "id": "16b377fa-1a6d-44a5-a0fa-1378343a76d4",
-  "prevId": "0b67bae1-0bf5-42e5-ab22-18141d2b0a5b",
-  "version": "6",
+  "version": "7",
   "dialect": "postgresql",
   "tables": {
     "auth.users": {
@@ -54,16 +52,16 @@
         "t3turbo_profile_id_users_id_fk": {
           "name": "t3turbo_profile_id_users_id_fk",
           "tableFrom": "t3turbo_profile",
-          "tableTo": "users",
-          "schemaTo": "auth",
           "columnsFrom": [
             "id"
           ],
+          "tableTo": "users",
+          "schemaTo": "auth",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {},
@@ -111,15 +109,15 @@
         "t3turbo_files_project_id_t3turbo_projects_id_fk": {
           "name": "t3turbo_files_project_id_t3turbo_projects_id_fk",
           "tableFrom": "t3turbo_files",
-          "tableTo": "t3turbo_projects",
           "columnsFrom": [
             "project_id"
           ],
+          "tableTo": "t3turbo_projects",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -173,15 +171,15 @@
         "t3turbo_projects_customer_id_t3turbo_profile_id_fk": {
           "name": "t3turbo_projects_customer_id_t3turbo_profile_id_fk",
           "tableFrom": "t3turbo_projects",
-          "tableTo": "t3turbo_profile",
           "columnsFrom": [
             "customer_id"
           ],
+          "tableTo": "t3turbo_profile",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -215,41 +213,41 @@
         "t3turbo_project_users_project_id_t3turbo_projects_id_fk": {
           "name": "t3turbo_project_users_project_id_t3turbo_projects_id_fk",
           "tableFrom": "t3turbo_project_users",
-          "tableTo": "t3turbo_projects",
           "columnsFrom": [
             "project_id"
           ],
+          "tableTo": "t3turbo_projects",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         },
         "t3turbo_project_users_profile_id_t3turbo_profile_id_fk": {
           "name": "t3turbo_project_users_profile_id_t3turbo_profile_id_fk",
           "tableFrom": "t3turbo_project_users",
-          "tableTo": "t3turbo_profile",
           "columnsFrom": [
             "profile_id"
           ],
+          "tableTo": "t3turbo_profile",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         },
         "t3turbo_project_users_role_id_t3turbo_role_id_fk": {
           "name": "t3turbo_project_users_role_id_t3turbo_role_id_fk",
           "tableFrom": "t3turbo_project_users",
-          "tableTo": "t3turbo_role",
           "columnsFrom": [
             "role_id"
           ],
+          "tableTo": "t3turbo_role",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {
@@ -299,8 +297,10 @@
   "enums": {},
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "16b377fa-1a6d-44a5-a0fa-1378343a76d4",
+  "prevId": "0b67bae1-0bf5-42e5-ab22-18141d2b0a5b"
 }
