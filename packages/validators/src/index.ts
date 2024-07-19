@@ -16,3 +16,15 @@ export const SignUpSchema = z.object({
   }),
 });
 export type SignUp = z.infer<typeof SignUpSchema>;
+
+// Project
+
+export const CreateProjectSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "Name is required" })
+    .max(255, { message: "Name is too long" }),
+  description: z.string(),
+});
+
+export type CreateProject = z.infer<typeof CreateProjectSchema>;
