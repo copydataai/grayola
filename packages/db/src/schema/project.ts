@@ -38,7 +38,7 @@ export const CreateProjectSchema = createInsertSchema(Project, {
 });
 
 export const Role = createTable("role", {
-    id: uuid("id").primaryKey(),
+    id: uuid("id").primaryKey().defaultRandom(),
     name: varchar("name", { length: 256 }).notNull(),
 });
 
