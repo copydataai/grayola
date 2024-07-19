@@ -5,8 +5,6 @@ import { appRouter, createTRPCContext } from "@acme/api";
 
 import { createClient } from "~/utils/supabase/server";
 
-export const runtime = "edge";
-
 /**
  * Configure basic CORS headers
  * You should extend this to match your needs
@@ -17,7 +15,6 @@ function setCorsHeaders(res: Response) {
   res.headers.set("Access-Control-Allow-Methods", "OPTIONS, GET, POST");
   res.headers.set("Access-Control-Allow-Headers", "*");
 }
-
 export function OPTIONS() {
   const response = new Response(null, {
     status: 204,
@@ -38,9 +35,7 @@ const handler = async (req: NextRequest) => {
       console.error(`>>> tRPC Error on '${path}'`, error);
     },
   });
-
   setCorsHeaders(response);
   return response;
 };
-
 export { handler as GET, handler as POST };
