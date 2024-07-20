@@ -22,7 +22,7 @@ export const signInWithPassword = action(
 
     if (error) throw error;
 
-    revalidatePath("/dashboard", "layout");
+    revalidatePath("/", "layout");
     redirect(DEFAULT_LOGIN_REDIRECT);
   },
 );
