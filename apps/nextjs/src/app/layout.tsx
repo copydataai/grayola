@@ -7,6 +7,7 @@ import { Toaster } from "@acme/ui/sonner";
 import { ThemeProvider, ThemeToggle } from "@acme/ui/theme";
 
 import { TRPCReactProvider } from "~/trpc/react";
+import { Navbar } from "./_components/Navbar";
 
 import "~/app/globals.css";
 
@@ -52,7 +53,12 @@ export default function RootLayout(props: { children: React.ReactNode }) {
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <TRPCReactProvider>{props.children}</TRPCReactProvider>
+          <TRPCReactProvider>
+            <header className="flex h-12 w-full items-center justify-center px-4">
+              <Navbar />
+            </header>
+            {props.children}
+          </TRPCReactProvider>
           <div className="absolute bottom-4 right-4">
             <ThemeToggle />
           </div>
