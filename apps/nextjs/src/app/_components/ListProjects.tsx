@@ -1,24 +1,21 @@
 "use client";
 
 import Image from "next/image";
-import { ListMusic, PlusCircle } from "lucide-react";
+import Link from "next/link";
+import { MoreVertical } from "lucide-react";
 
 import { cn } from "@acme/ui";
+import { Button } from "@acme/ui/button";
 import {
-  ContextMenu,
-  ContextMenuCheckboxItem,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuLabel,
-  ContextMenuRadioGroup,
-  ContextMenuRadioItem,
-  ContextMenuSeparator,
-  ContextMenuShortcut,
-  ContextMenuSub,
-  ContextMenuSubContent,
-  ContextMenuSubTrigger,
-  ContextMenuTrigger,
-} from "@acme/ui/context-menu";
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@acme/ui/dropdown-menu";
+import { Input } from "@acme/ui/input";
 import { toast } from "@acme/ui/sonner";
 
 import { api } from "~/trpc/react";
@@ -38,52 +35,53 @@ export function ListProjects({
   return (
     <div className="flex flex-wrap gap-4">
       {data.map((project) => (
-        <div className={cn("space-y-3", className)} {...props}>
-          <ContextMenu>
-            <ContextMenuTrigger>
-              <div className="overflow-hidden rounded-md">
-                <Image
-                  src="/team-collaborating.webp"
-                  alt={project.name}
-                  width={width}
-                  height={height}
-                  className={cn(
-                    "h-auto w-auto object-cover transition-all hover:scale-105",
-                    aspectRatio === "portrait"
-                      ? "aspect-[3/4]"
-                      : "aspect-square",
-                  )}
-                />
+        <Link
+          href="/dashboard/project/[projectId]"
+          as={`/dashboard/project/${project.id}`}
+          key={project.id}
+        >
+          <div className={cn("space-y-3", className)} {...props}>
+            <div className="overflow-hidden rounded-md">
+              <Image
+                src="/team-collaborating.webp"
+                alt={project.name}
+                width={width}
+                height={height}
+                className={cn(
+                  "h-auto w-auto object-cover transition-all hover:scale-105",
+                  aspectRatio === "portrait" ? "aspect-[3/4]" : "aspect-square",
+                )}
+              />
+            </div>
+            <div className="flex justify-between">
+              <div className="flex flex-col space-y-1 text-sm">
+                <h3 className="font-medium leading-none">{project.name}</h3>
+                <p className="text-xs text-muted-foreground">
+                  {project.description}
+                </p>
               </div>
-            </ContextMenuTrigger>
-            <ContextMenuContent className="w-40">
-              <ContextMenuItem>Add to Library</ContextMenuItem>
-              <ContextMenuSub>
-                <ContextMenuSubTrigger>Add to Playlist</ContextMenuSubTrigger>
-                <ContextMenuSubContent className="w-48">
-                  <ContextMenuItem>
-                    <PlusCircle className="mr-2 h-4 w-4" />
-                    New Playlist
-                  </ContextMenuItem>
-                  <ContextMenuSeparator />
-                </ContextMenuSubContent>
-              </ContextMenuSub>
-              <ContextMenuSeparator />
-              <ContextMenuItem>Play Next</ContextMenuItem>
-              <ContextMenuItem>Play Later</ContextMenuItem>
-              <ContextMenuItem>Create Station</ContextMenuItem>
-              <ContextMenuSeparator />
-              <ContextMenuItem>Like</ContextMenuItem>
-              <ContextMenuItem>Share</ContextMenuItem>
-            </ContextMenuContent>
-          </ContextMenu>
-          <div className="space-y-1 text-sm">
-            <h3 className="font-medium leading-none">{project.name}</h3>
-            <p className="text-xs text-muted-foreground">
-              {project.description}
-            </p>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    className="h-8 w-8 hover:bg-muted"
+                  >
+                    <MoreVertical className="h-3.5 w-3.5" />
+                    <span className="sr-only">More</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem>Edit</DropdownMenuItem>
+                  <DropdownMenuItem>Export</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>Trash</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );
