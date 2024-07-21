@@ -23,15 +23,14 @@ export default async function HomePage() {
             Get designs at least of 72 hours
           </h3>
         </div>
-        <Link href="/auth/signup" asChild>
-          <Button
-            variant="outline"
-            size="lg"
-            className="border-x-1 border-t-1 animate-pulse border-b-4 border-x-black border-b-black border-t-black bg-gradient-to-r from-emerald-500 to-sky-500 hover:from-pink-500 hover:to-yellow-500 hover:delay-1000 "
-          >
-            Free Trial
-          </Button>
-        </Link>
+        <Button
+          variant="outline"
+          size="lg"
+          className="border-x-1 border-t-1 animate-pulse border-b-4 border-x-black border-b-black border-t-black bg-gradient-to-r from-emerald-500 to-sky-500 hover:from-pink-500 hover:to-yellow-500 hover:delay-1000 "
+          asChild
+        >
+          <Link href="/auth/signup">Free Trial</Link>
+        </Button>
       </div>
       <div>
         <img
