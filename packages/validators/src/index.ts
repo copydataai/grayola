@@ -28,3 +28,10 @@ export const CreateProjectSchema = z.object({
 });
 
 export type CreateProject = z.infer<typeof CreateProjectSchema>;
+
+export const CreateFileSchema = z.object({
+  path: z.string(),
+  projectId: z.string(),
+});
+
+export type CreateFile = z.infer<typeof CreateFileSchema>;
