@@ -15,10 +15,10 @@ export async function UploadFile(fileName: string, file: File) {
 export async function GetSignedURL(fullPath: string) {
     const supabase = createClient();
 
-    const inAYear = 60 * 60 * 24 * 365;
+    const inAnHour = 60 * 60;
     const { data, error } = await supabase.storage
         .from("project_files")
-        .createSignedUrl(fullPath, inAYear, {
+        .createSignedUrl(fullPath, inAnHour, {
             download: true,
         });
 
