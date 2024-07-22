@@ -36,7 +36,7 @@ export function DialogProject() {
 
   const mutation = api.project.create.useMutation({
     onSuccess: (project) => {
-      toast.success(`Project ${project.name} created`);
+      toast.success(`Project ${project[0]!.name} created`);
       form.reset();
     },
     onError: (error) => {
@@ -45,7 +45,6 @@ export function DialogProject() {
   });
 
   async function onSubmit(values: CreateProject) {
-    console.log(values);
     await mutation.mutate(values);
   }
 
