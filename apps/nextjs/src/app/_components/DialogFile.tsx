@@ -26,13 +26,31 @@ import {
 import { Input } from "@acme/ui/input";
 import { toast } from "@acme/ui/sonner";
 import { Textarea } from "@acme/ui/textarea";
+import { CreateFile, CreateFileSchema } from "@acme/validators";
 
 import { UploadFile } from "~/app/dashboard/project/[projectId]/actions";
 import { api } from "~/trpc/react";
 
-export function DialogFile() {
-  const [file, setFile] = useState<File | null>(null);
-  const form = useForm({});
+type DialogFileProps = {
+  projectId: string;
+};
+
+export function DialogFile(props: DialogFileProps) {
+  const mutation = api.project.createFile.useMutation({
+    onSuccess: () => {
+      toast.success("File uploaded");
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+  const [fileContent, setFileContent] = useState<File | null>(null);
+  const [fileName, setFileName] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const form = useForm({
+    schema: CreateFileSchema,
+  });
   const handleFileChange = async ({ file }: { file: File | null }) => {
     try {
       if (!file) throw new Error("Function: handleFileChange expects a file");
@@ -40,18 +58,22 @@ export function DialogFile() {
       if (file.size > 2 * 1024 * 1024) {
         throw new Error("File size must not exceed 2MB");
       }
-
-      const { data, error } = await UploadFile(file.name, file);
-      console.log("FIle url: ", data, error);
-      if (error) throw new Error(error.message);
-      if (!data) throw new Error("File not uploaded");
+      await setFileContent(file);
+      await setFileName(file.name);
     } catch (err) {
-      console.error("Error in handleFileChange:", err);
+      toast.error(err);
     }
   };
-  async function onSubmit(data: any) {
-    console.log("submit", data);
+
+  async function onSubmit(values: CreateFile) {
+    const { data, error } = await UploadFile(fileName, fileContent);
+    if (error) toast.error(error);
+    const newFile = await mutation.mutate({
+      path: data.fullPath,
+      projectId: props.projectId,
+    });
   }
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -73,11 +95,6 @@ export function DialogFile() {
                     <Input
                       type="file"
                       onChange={(e) => {
-                        console.log(
-                          "EVENT",
-                          e.target?.files[0],
-                          e.target.files,
-                        );
                         handleFileChange({ file: e.target?.files[0]! });
                       }}
                     />
