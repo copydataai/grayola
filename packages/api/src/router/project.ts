@@ -42,6 +42,16 @@ export const projectRouter = {
 
             return project;
         }),
+    createFile: protectedProcedure
+        .input(z.object({ path: z.string(), projectId: z.string() }))
+        .mutation(async ({ ctx, input }) => {
+            const file = await ctx.db
+                .insert(Files)
+                .values({ path: input.path, projectId: input.projectId })
+                .returning();
+
+            return file;
+        }),
     getFilesByProjectId: protectedProcedure
         .input(z.object({ projectId: z.string() }))
         .query(async ({ ctx, input }) => {
