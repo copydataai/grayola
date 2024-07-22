@@ -6,7 +6,7 @@ import {
     uuid,
     varchar,
 } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
 import { timestamps } from "../lib/utils";
@@ -26,6 +26,8 @@ export const Project = createTable("projects", {
         withTimezone: true,
     }).$onUpdateFn(() => sql`now()`),
 });
+
+export const SelectProjectSchema = createSelectSchema(Project);
 
 export const CreateProjectSchema = createInsertSchema(Project, {
     name: z.string().max(256, { message: "Name is too long" }),
