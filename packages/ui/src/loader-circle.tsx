@@ -2,6 +2,9 @@ import { LoaderCircle } from "lucide-react";
 
 import { cn } from "@acme/ui";
 
-export function LoaderCircleLucide({ className }) {
+type LoaderCircleLucideProps = {
+  className?: string;
+};
+export const LoaderCircleLucide = ({ className }: LoaderCircleLucideProps) => {
   return <LoaderCircle className={cn("animate-spin", className)} />;
-}
+};
