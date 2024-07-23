@@ -1,5 +1,6 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { Button } from "@acme/ui/button";
@@ -30,8 +31,8 @@ import { CreateProject, CreateProjectSchema } from "@acme/validators";
 import { api } from "~/trpc/react";
 
 export function DialogProject() {
-  const form = useForm({
-    schema: CreateProjectSchema,
+  const form = useForm<CreateProject>({
+    resolver: zodResolver(CreateProjectSchema),
   });
 
   const mutation = api.project.create.useMutation({
