@@ -3,7 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MoreVertical } from "lucide-react";
+import { z } from "zod";
 
+import { SelectProjectSchema } from "@acme/db/schema";
 import { cn } from "@acme/ui";
 import { Button } from "@acme/ui/button";
 import {
@@ -20,21 +22,35 @@ import { toast } from "@acme/ui/sonner";
 
 import { api } from "~/trpc/react";
 
+type ListProjectsProps = {
+  aspectRatio?: "portrait" | "square";
+  width: number;
+  height: number;
+  className?: string;
+};
+
+type Project = z.infer<typeof SelectProjectSchema>;
+
 export function ListProjects({
   aspectRatio = "portrait",
   width,
   height,
   className,
   ...props
-}) {
-  const { data, isLoading, isError, error } = api.project.listAll.useQuery();
+}: ListProjectsProps) {
+  const {
+    data = [],
+    isLoading,
+    isError,
+    error,
+  } = api.project.listAll.useQuery<Project[]>();
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: {error.message}</div>;
   console.log(data);
 
   return (
     <div className="flex flex-wrap gap-4">
-      {data.map((project) => (
+      {data.map((project: Project) => (
         <Link
           href="/dashboard/project/[projectId]"
           as={`/dashboard/project/${project.id}`}
@@ -44,7 +60,7 @@ export function ListProjects({
             <div className="overflow-hidden rounded-md">
               <Image
                 src="/team-collaborating.webp"
-                alt={project.name}
+                alt={project.name ?? "Unnamed project"}
                 width={width}
                 height={height}
                 className={cn(
