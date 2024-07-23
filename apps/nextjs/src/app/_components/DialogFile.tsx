@@ -38,6 +38,9 @@ type DialogFileProps = {
 
 const MAX_FILE_SIZE = 5000000;
 
+const noFileError = new Error("expects a file");
+const tooBigFileError = new Error("File size must not exceed 5MB");
+
 export function DialogFile(props: DialogFileProps) {
   const [fileContent, setFileContent] = useState<File | null>(null);
   const [fileName, setFileName] = useState<string>("");
@@ -55,17 +58,21 @@ export function DialogFile(props: DialogFileProps) {
   });
   // TODO: add validation by zod
   const form = useForm({});
-  const handleFileChange = async ({ file }: { file: File | null }) => {
+  const handleFileChange = async ({
+    file,
+  }: {
+    file: File | null | undefined;
+  }) => {
     try {
       await setIsLoading(true);
-      if (!file) throw new Error("Function: handleFileChange expects a file");
+      if (!file) throw noFileError;
 
       if (file.size > MAX_FILE_SIZE) {
-        throw new Error("File size must not exceed 5MB");
+        throw tooBigFileError;
       }
       await setFileContent(file);
       await setFileName(file.name);
-    } catch (err: Error) {
+    } catch (err: any) {
       toast.error(err);
     }
     await setIsLoading(false);
@@ -77,10 +84,20 @@ export function DialogFile(props: DialogFileProps) {
       form.reset();
       return;
     }
-    const { data, error } = await UploadFile(fileName, fileContent);
-    if (error) toast.error(`Error uploading ${fileName}file`);
+    const { data = {}, error } = await UploadFile(fileName, fileContent);
+    if (error) {
+      toast.error(`Error uploading ${fileName}file`);
+      form.reset();
+      return;
+    }
+    if (!data) {
+      toast.error("Error uploading file");
+      form.reset();
+      return;
+    }
+
     const newFile = await mutation.mutate({
-      path: data.fullPath,
+      path: (data as any).fullPath,
       projectId: props.projectId,
     });
   }
@@ -106,7 +123,11 @@ export function DialogFile(props: DialogFileProps) {
                     <Input
                       type="file"
                       onChange={(e) => {
-                        handleFileChange({ file: e.target?.files[0] });
+                        if (e.target?.files && e.target.files.length > 0) {
+                          handleFileChange({ file: e.target.files[0] });
+                        } else {
+                          handleFileChange({ file: null });
+                        }
                       }}
                       required
                     />
