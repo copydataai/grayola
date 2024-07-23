@@ -80,7 +80,9 @@ export const Files = createTable("files", {
     path: varchar("path", { length: 256 }),
     projectId: uuid("project_id")
         .notNull()
-        .references(() => Project.id),
+        .references(() => Project.id, {
+            onDelete: "cascade",
+        }),
     createdAt: timestamp("created_at")
         .default(sql`now()`)
         .notNull(),
