@@ -67,7 +67,14 @@ export const projectRouter = {
         const profileId = await ctx.user.id;
 
         const projects = await ctx.db
-            .select(Project)
+            .select({
+                id: Project.id,
+                name: Project.name,
+                description: Project.description,
+                customerId: Project.customerId,
+                createdAt: Project.createdAt,
+                updatedAt: Project.updatedAt,
+            })
             .from(ProjectUsers)
             .where(eq(ProjectUsers.profileId, profileId))
             .innerJoin(Project, eq(Project.id, ProjectUsers.projectId));
