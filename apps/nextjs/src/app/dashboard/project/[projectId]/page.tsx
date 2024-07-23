@@ -42,7 +42,7 @@ export default function ProjectIdPage({
       <div>
         <DialogFile projectId={projectId} />
       </div>
-      <section>
+      <section className="flex flex-col items-center justify-center gap-4">
         {data.length === 0 ? (
           <div>No files found</div>
         ) : (

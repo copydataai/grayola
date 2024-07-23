@@ -49,7 +49,7 @@ export function ListProjects({
   console.log(data);
 
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex w-1/2 flex-wrap items-center justify-center gap-4 ">
       {data.map((project: Project) => (
         <Link
           href="/dashboard/project/[projectId]"
@@ -58,6 +58,7 @@ export function ListProjects({
         >
           <div className={cn("space-y-3", className)} {...props}>
             <div className="overflow-hidden rounded-md">
+              {/* TODO: replace img by the latest uploaded file */}
               <Image
                 src="/team-collaborating.webp"
                 alt={project.name ?? "Unnamed project"}
