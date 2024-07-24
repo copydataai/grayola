@@ -139,12 +139,11 @@ export function DropDownOptions(props: DropdownOptions) {
                 <FormItem>
                   <FormLabel>Role</FormLabel>
                   <Select
-                    className="w-[280px]"
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="w-[280px]">
                         <SelectValue placeholder="Select a role" />
                       </SelectTrigger>
                     </FormControl>
@@ -167,12 +166,11 @@ export function DropDownOptions(props: DropdownOptions) {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <Select
-                    className="w-[280px]"
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="w-[280px]">
                         <SelectValue placeholder="Select the user email" />
                       </SelectTrigger>
                     </FormControl>
