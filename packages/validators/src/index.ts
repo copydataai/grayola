@@ -35,3 +35,13 @@ export const CreateFileSchema = z.object({
 });
 
 export type CreateFile = z.infer<typeof CreateFileSchema>;
+
+// ProjectUsers
+
+export const CreateProjectUsersSchema = z.object({
+  profileId: z.string(),
+  projectId: z.string(),
+  roleId: z.string(),
+});
+
+export type CreateProjectUsers = z.infer<typeof CreateProjectUsersSchema>;
