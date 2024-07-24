@@ -74,10 +74,6 @@ export function DropDownOptions(props: DropdownOptions) {
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
 
   const { projectId, role } = props;
-  if (role === Roles.Customer || role === Roles.Designer) {
-    return <div></div>;
-  }
-
   const form = useForm<CreateProjectUsers>({
     resolver: zodResolver(CreateProjectUsersSchema),
     defaultValues: {

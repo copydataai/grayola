@@ -69,15 +69,18 @@ export function ListProjects({
               </p>
             </div>
 
-            <div className="flex items-center space-x-2">
-              <DialogModifyProject
-                projectId={project.id}
-                name={project.name}
-                description={project.description}
-              />
+            {(project.role === Roles.ProjectManager ||
+              project.role === Roles.Admin) && (
+              <div className="flex items-center space-x-2">
+                <DialogModifyProject
+                  projectId={project.id}
+                  name={project.name}
+                  description={project.description}
+                />
 
-              <DropDownOptions projectId={project.id} role={project.role} />
-            </div>
+                <DropDownOptions projectId={project.id} role={project.role} />
+              </div>
+            )}
           </div>
         </div>
       ))}
