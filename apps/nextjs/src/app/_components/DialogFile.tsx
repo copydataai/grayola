@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
 
 import { Button } from "@acme/ui/button";
 import {
@@ -70,8 +71,9 @@ export function DialogFile(props: DialogFileProps) {
       if (file.size > MAX_FILE_SIZE) {
         throw tooBigFileError;
       }
+      const fileId = await uuidv4();
       await setFileContent(file);
-      await setFileName(file.name);
+      await setFileName(fileId + "-" + file.name);
     } catch (err: any) {
       toast.error(err);
     }
