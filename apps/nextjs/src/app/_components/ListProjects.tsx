@@ -8,6 +8,7 @@ import { Roles, SelectProjectAndRoleSchema } from "@acme/db/schema";
 import { cn } from "@acme/ui";
 import { Button } from "@acme/ui/button";
 import { Input } from "@acme/ui/input";
+import { LoaderCircleLucide } from "@acme/ui/loader-circle";
 import { toast } from "@acme/ui/sonner";
 
 import { DialogModifyProject } from "~/app/_components/DialogModifyProject";
@@ -36,8 +37,28 @@ export function ListProjects({
     isError,
     error,
   } = api.project.listAllAndRole.useQuery<ProjectAndRole[]>();
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error: {error.message}</div>;
+  if (isLoading)
+    return (
+      <div className="flex h-screen w-screen items-center justify-center">
+        <LoaderCircleLucide className="h-12 w-12" />
+      </div>
+    );
+  if (isError) {
+    toast.error(error.message);
+    return (
+      <div className="flex h-screen w-screen items-center justify-center">
+        <LoaderCircleLucide className="h-12 w-12 text-red-500" />
+      </div>
+    );
+  }
+
+  if (data.length === 0) {
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        No projects
+      </div>
+    );
+  }
 
   return (
     <div className="flex w-1/2 flex-wrap items-center justify-center gap-4 ">
@@ -64,7 +85,7 @@ export function ListProjects({
           <div className="flex justify-between">
             <div className="flex flex-col space-y-1 text-sm">
               <h3 className="font-medium leading-none">{project.name}</h3>
-              <p className="text-xs text-muted-foreground">
+              <p className="line-clamp-3 text-xs text-muted-foreground">
                 {project.description}
               </p>
             </div>
