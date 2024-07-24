@@ -36,6 +36,16 @@ export const Project = createTable("projects", {
 
 export const SelectProjectSchema = createSelectSchema(Project);
 
+export const SelectProjectAndRoleSchema = z.object({
+    id: z.string(),
+    name: z.string(),
+    description: z.string(),
+    customerId: z.string(),
+    createdAt: z.date(),
+    updatedAt: z.date(),
+    role: z.nativeEnum(Roles),
+});
+
 export const CreateProjectSchema = createInsertSchema(Project, {
     name: z.string().max(256, { message: "Name is too long" }),
     description: z.string(),
