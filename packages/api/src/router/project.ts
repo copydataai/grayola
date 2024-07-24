@@ -1,7 +1,7 @@
 import type { TRPCRouterRecord } from "@trpc/server";
 import type { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import { TRPCError } from "@trpc/server";
-import { eq } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 import { z } from "zod";
 
 import {
@@ -16,11 +16,20 @@ import { CreateProjectSchema } from "@acme/validators";
 
 import { protectedProcedure, publicProcedure } from "../trpc";
 
-const getRole = async (db: PostgresJsDatabase, projectId: string) => {
+const getRole = async (
+    db: PostgresJsDatabase,
+    projectId: string,
+    profileId: string,
+) => {
     const project = await db
         .select()
         .from(ProjectUsers)
-        .where(eq(ProjectUsers.projectId, projectId));
+        .where(
+            and(
+                eq(ProjectUsers.projectId, projectId),
+                eq(ProjectUsers.profileId, profileId),
+            ),
+        );
 
     if (project.length === 0) {
         throw new TRPCError({
@@ -84,7 +93,7 @@ export const projectRouter = {
             }),
         )
         .mutation(async ({ ctx, input }) => {
-            const role = await getRole(ctx.db, input.projectId);
+            const role = await getRole(ctx.db, input.projectId, ctx.user.id);
 
             if (role.name === Roles.Customer || role.name === Roles.Designer) {
                 throw new TRPCError({
@@ -123,7 +132,7 @@ export const projectRouter = {
             }),
         )
         .query(async ({ ctx, input }) => {
-            const role = await getRole(ctx.db, input.projectId);
+            const role = await getRole(ctx.db, input.projectId, ctx.user.id);
             return role;
         }),
     getFilesByProjectId: protectedProcedure
@@ -184,7 +193,7 @@ export const projectRouter = {
             }),
         )
         .mutation(async ({ ctx, input }) => {
-            const role = await getRole(ctx.db, input.projectId);
+            const role = await getRole(ctx.db, input.projectId, ctx.user.id);
             if (role.name !== Roles.ProjectManager) {
                 throw new TRPCError({
                     code: "UNAUTHORIZED",
@@ -193,18 +202,23 @@ export const projectRouter = {
                 });
             }
 
+            console.log("pass", input);
             const project = await ctx.db
                 .update(Project)
-                .set({ ...input })
+                .set({
+                    name: input.name,
+                    description: input.description,
+                })
                 .where(eq(Project.id, input.projectId))
                 .returning();
+            console.log("porj", project);
 
             return project;
         }),
     delete: protectedProcedure
         .input(z.object({ projectId: z.string() }))
-        .query(async ({ ctx, input }) => {
-            const role = await getRole(ctx.db, input.projectId);
+        .mutation(async ({ ctx, input }) => {
+            const role = await getRole(ctx.db, input.projectId, ctx.user.id);
             if (role.name !== Roles.ProjectManager) {
                 throw new TRPCError({
                     code: "UNAUTHORIZED",
@@ -212,9 +226,13 @@ export const projectRouter = {
                         "Only the project manager is allowed to delete the project",
                 });
             }
+            console.log(role);
 
             const project = await ctx.db
                 .delete(Project)
-                .where(eq(Project.id, input.projectId));
+                .where(eq(Project.id, input.projectId))
+                .returning();
+
+            return project;
         }),
 } satisfies TRPCRouterRecord;
