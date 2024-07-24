@@ -91,7 +91,7 @@ export function DropDownOptions(props: DropdownOptions) {
   }
 
   if (roles.isError || profiles.isError) {
-    toast.error(error.message);
+    toast.error("Error fetching data");
     return (
       <div className="flex h-screen w-screen items-center justify-center">
         <LoaderCircleLucide className="h-12 w-12 text-red-500" />
