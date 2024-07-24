@@ -150,7 +150,7 @@ export const projectRouter = {
                 .from(Project)
                 .where(eq(Project.id, input.projectId));
 
-            return { ...project[0], ...role.name };
+            return { ...project[0], ...{ role: role.name } };
         }),
     getFilesByProjectId: protectedProcedure
         .input(z.object({ projectId: z.string() }))
