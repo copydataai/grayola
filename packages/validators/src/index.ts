@@ -29,6 +29,17 @@ export const CreateProjectSchema = z.object({
 
 export type CreateProject = z.infer<typeof CreateProjectSchema>;
 
+export const UpdateProjectSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "Name is required" })
+    .max(255, { message: "Name is too long" }),
+  description: z.string(),
+  projectId: z.string(),
+});
+
+export type UpdateProject = z.infer<typeof UpdateProjectSchema>;
+
 export const CreateFileSchema = z.object({
   path: z.string(),
   projectId: z.string(),
