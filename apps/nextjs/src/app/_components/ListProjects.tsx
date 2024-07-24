@@ -85,7 +85,7 @@ export function ListProjects({
           <div className="flex justify-between">
             <div className="flex flex-col space-y-1 text-sm">
               <h3 className="font-medium leading-none">{project.name}</h3>
-              <p className="line-clamp-3 text-xs text-muted-foreground">
+              <p className="line-clamp-1 text-xs text-muted-foreground">
                 {project.description}
               </p>
             </div>
