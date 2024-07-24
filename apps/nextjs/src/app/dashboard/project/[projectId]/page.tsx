@@ -65,7 +65,8 @@ export default function ProjectIdPage({
           </ScrollArea>
         </div>
         <div className="flex w-1/2 flex-col items-center justify-center gap-4">
-          <DialogFile projectId={projectId} />
+          {(data?.role === Roles.ProjectManager ||
+            data?.role === Roles.Admin) && <DialogFile projectId={projectId} />}
           <FilesTable projectId={projectId} />
         </div>
       </section>
