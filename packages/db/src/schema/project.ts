@@ -13,6 +13,13 @@ import { timestamps } from "../lib/utils";
 import { createTable } from "./_table";
 import { Profile } from "./profile";
 
+export enum Roles {
+    Customer = "customer",
+    ProjectManager = "project manager",
+    Designer = "designer",
+    Admin = "admin",
+}
+
 export const Project = createTable("projects", {
     id: uuid("id").primaryKey().defaultRandom(),
     name: varchar("name", { length: 256 }),
