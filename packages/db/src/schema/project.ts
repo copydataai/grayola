@@ -31,7 +31,7 @@ export const Project = createTable("projects", {
     updatedAt: timestamp("updatedAt", {
         mode: "date",
         withTimezone: true,
-    }).$onUpdateFn(() => sql`now()`),
+    }).$onUpdate(() => new Date()),
 });
 
 export const SelectProjectSchema = createSelectSchema(Project);
@@ -106,5 +106,5 @@ export const Files = createTable("files", {
     updatedAt: timestamp("updatedAt", {
         mode: "date",
         withTimezone: true,
-    }).$onUpdateFn(() => sql`now()`),
+    }).$onUpdate(() => new Date()),
 });
