@@ -13,7 +13,12 @@ export default async function DashboardPage() {
           <DialogProject />
         </div>
         <section className="flex flex-col items-center justify-center gap-4">
-          <ListProjects width={150} height={150} aspectRatio="square" />
+          <ListProjects
+            width={150}
+            height={150}
+            aspectRatio="square"
+            className="w-[250px]"
+          />
         </section>
       </main>
     </>
