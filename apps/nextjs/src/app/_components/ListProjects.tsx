@@ -2,24 +2,15 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { MoreVertical } from "lucide-react";
 import { z } from "zod";
 
-import { SelectProjectSchema } from "@acme/db/schema";
+import { Roles, SelectProjectAndRoleSchema } from "@acme/db/schema";
 import { cn } from "@acme/ui";
 import { Button } from "@acme/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@acme/ui/dropdown-menu";
 import { Input } from "@acme/ui/input";
 import { toast } from "@acme/ui/sonner";
 
+import { DropDownOptions } from "~/app/_components/DropDownOptions";
 import { api } from "~/trpc/react";
 
 type ListProjectsProps = {
@@ -29,7 +20,7 @@ type ListProjectsProps = {
   className?: string;
 };
 
-type Project = z.infer<typeof SelectProjectSchema>;
+type ProjectAndRole = z.infer<typeof SelectProjectAndRoleSchema>;
 
 export function ListProjects({
   aspectRatio = "portrait",
@@ -43,22 +34,20 @@ export function ListProjects({
     isLoading,
     isError,
     error,
-  } = api.project.listAll.useQuery<Project[]>();
+  } = api.project.listAllAndRole.useQuery<ProjectAndRole[]>();
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error: {error.message}</div>;
-  console.log(data);
 
   return (
     <div className="flex w-1/2 flex-wrap items-center justify-center gap-4 ">
-      {data.map((project: Project) => (
-        <Link
-          href="/dashboard/project/[projectId]"
-          as={`/dashboard/project/${project.id}`}
-          key={project.id}
-        >
-          <div className={cn("space-y-3", className)} {...props}>
-            <div className="overflow-hidden rounded-md">
-              {/* TODO: replace img by the latest uploaded file */}
+      {data.map((project: ProjectAndRole) => (
+        <div className={cn("space-y-3", className)} key={project.id} {...props}>
+          <div className="overflow-hidden rounded-md">
+            {/* TODO: replace img by the latest uploaded file */}
+            <Link
+              href="/dashboard/project/[projectId]"
+              as={`/dashboard/project/${project.id}`}
+            >
               <Image
                 src="/team-collaborating.webp"
                 alt={project.name ?? "Unnamed project"}
@@ -69,36 +58,19 @@ export function ListProjects({
                   aspectRatio === "portrait" ? "aspect-[3/4]" : "aspect-square",
                 )}
               />
-            </div>
-            <div className="flex justify-between">
-              <div className="flex flex-col space-y-1 text-sm">
-                <h3 className="font-medium leading-none">{project.name}</h3>
-                <p className="text-xs text-muted-foreground">
-                  {project.description}
-                </p>
-              </div>
-
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    size="icon"
-                    variant="outline"
-                    className="h-8 w-8 hover:bg-muted"
-                  >
-                    <MoreVertical className="h-3.5 w-3.5" />
-                    <span className="sr-only">More</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem>Edit</DropdownMenuItem>
-                  <DropdownMenuItem>Export</DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>Trash</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
+            </Link>
           </div>
-        </Link>
+          <div className="flex justify-between">
+            <div className="flex flex-col space-y-1 text-sm">
+              <h3 className="font-medium leading-none">{project.name}</h3>
+              <p className="text-xs text-muted-foreground">
+                {project.description}
+              </p>
+            </div>
+
+            <DropDownOptions projectId={project.id} role={project.role} />
+          </div>
+        </div>
       ))}
     </div>
   );
