@@ -133,6 +133,25 @@ export const projectRouter = {
             const role = await getRole(ctx.db, input.projectId, ctx.user.id);
             return role;
         }),
+    getProjectAndRoleByProjectId: protectedProcedure
+        .input(z.object({ projectId: z.string() }))
+        .query(async ({ ctx, input }) => {
+            const role = await getRole(ctx.db, input.projectId, ctx.user.id);
+
+            const project = await ctx.db
+                .select({
+                    id: Project.id,
+                    name: Project.name,
+                    description: Project.description,
+                    customerId: Project.customerId,
+                    createdAt: Project.createdAt,
+                    updatedAt: Project.updatedAt,
+                })
+                .from(Project)
+                .where(eq(Project.id, input.projectId));
+
+            return { ...project[0], ...role.name };
+        }),
     getFilesByProjectId: protectedProcedure
         .input(z.object({ projectId: z.string() }))
         .query(async ({ ctx, input }) => {
