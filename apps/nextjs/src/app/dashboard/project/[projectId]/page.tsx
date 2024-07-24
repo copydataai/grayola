@@ -1,9 +1,11 @@
 "use client";
 
 import { LoaderCircleLucide } from "@acme/ui/loader-circle";
+import { ScrollArea } from "@acme/ui/scroll-area";
 import { toast } from "@acme/ui/sonner";
 
 import { DialogFile } from "~/app/_components/DialogFile";
+import { FilesTable } from "~/app/_components/FilesTable";
 import { api } from "~/trpc/react";
 
 export default function ProjectIdPage({
@@ -17,9 +19,10 @@ export default function ProjectIdPage({
     isLoading,
     isError,
     error,
-  } = api.project.getFilesByProjectId.useQuery({
+  } = api.project.getProjectAndRoleByProjectId.useQuery({
     projectId,
   });
+
   if (isLoading)
     return (
       <div className="flex h-screen w-screen items-center justify-center">
@@ -36,18 +39,19 @@ export default function ProjectIdPage({
     );
   }
 
-  // TODO: add table to show and filter by created_at, updatedAt
   return (
-    <main className="flex flex-col items-center justify-center gap-4 pt-4">
-      <div>
-        <DialogFile projectId={projectId} />
-      </div>
+    <main className="flex flex-col items-center justify-center gap-4 py-4">
       <section className="flex flex-col items-center justify-center gap-4">
-        {data.length === 0 ? (
-          <div>No files found</div>
-        ) : (
-          data.map((file) => <p key={file.id}>{file.path}</p>)
-        )}
+        <div className="flex w-1/2 flex-col items-center justify-center">
+          <h1 className="text-2xl font-bold">{data?.name}</h1>
+          <ScrollArea className="h-[200px] w-[350px] rounded-md border p-4">
+            {data?.description}
+          </ScrollArea>
+        </div>
+        <div className="flex w-1/2 flex-col items-center justify-center gap-4">
+          <DialogFile projectId={projectId} />
+          <FilesTable projectId={projectId} />
+        </div>
       </section>
     </main>
   );
