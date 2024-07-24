@@ -4,7 +4,6 @@ import { createClient } from "~/utils/supabase/client";
 
 export async function UploadFile(fileName: string, file: File) {
     const supabase = createClient();
-    console.log("actions", fileName, file);
     const { data, error } = await supabase.storage
         .from("project_files")
         .upload(fileName, file);
