@@ -123,6 +123,17 @@ export const projectRouter = {
 
             return file;
         }),
+    updateFile: protectedProcedure
+        .input(z.object({ fileId: z.string(), path: z.string() }))
+        .mutation(async ({ ctx, input }) => {
+            const file = await ctx.db
+                .update(Files)
+                .set({ path: input.path })
+                .where(eq(Files.id, input.fileId))
+                .returning();
+
+            return file;
+        }),
     getRoleByProjectId: protectedProcedure
         .input(
             z.object({
