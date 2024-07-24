@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Pencil } from "lucide-react";
 import { useForm } from "react-hook-form";
 
 import { Button } from "@acme/ui/button";
@@ -63,7 +64,13 @@ export function DialogModifyProject(props: ProjectModifyProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Create Project</Button>
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-8 w-8 hover:bg-muted"
+        >
+          <Pencil className="h-4 w-4" />
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
