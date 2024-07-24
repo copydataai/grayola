@@ -102,8 +102,6 @@ export const projectRouter = {
                 });
             }
 
-            console.log("input", input);
-
             const assign = await ctx.db
                 .insert(ProjectUsers)
                 .values({
@@ -202,7 +200,6 @@ export const projectRouter = {
                 });
             }
 
-            console.log("pass", input);
             const project = await ctx.db
                 .update(Project)
                 .set({
@@ -211,7 +208,6 @@ export const projectRouter = {
                 })
                 .where(eq(Project.id, input.projectId))
                 .returning();
-            console.log("porj", project);
 
             return project;
         }),
@@ -226,7 +222,6 @@ export const projectRouter = {
                         "Only the project manager is allowed to delete the project",
                 });
             }
-            console.log(role);
 
             const project = await ctx.db
                 .delete(Project)
