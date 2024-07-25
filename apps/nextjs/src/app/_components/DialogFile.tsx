@@ -35,6 +35,7 @@ import { api } from "~/trpc/react";
 
 type DialogFileProps = {
   projectId: string;
+  title: string;
 };
 
 const MAX_FILE_SIZE = 5000000;
@@ -111,7 +112,7 @@ export function DialogFile(props: DialogFileProps) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create Project</DialogTitle>
+          <DialogTitle>{props.title}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
