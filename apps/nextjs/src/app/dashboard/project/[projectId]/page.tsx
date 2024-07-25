@@ -41,7 +41,6 @@ export default function ProjectIdPage({
     );
   }
 
-  console.log(data);
   return (
     <main className="flex flex-col items-center justify-center gap-4 py-4">
       <section className="flex flex-col items-center justify-center gap-4">
@@ -67,7 +66,7 @@ export default function ProjectIdPage({
         <div className="flex w-1/2 flex-col items-center justify-center gap-4">
           {(data?.role === Roles.ProjectManager ||
             data?.role === Roles.Admin) && <DialogFile projectId={projectId} />}
-          <FilesTable projectId={projectId} />
+          <FilesTable projectId={projectId} role={data?.role} />
         </div>
       </section>
     </main>
