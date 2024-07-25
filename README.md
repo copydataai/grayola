@@ -15,3 +15,19 @@
 To get it running, follow the steps below:
 
 ### Setup dependencies
+
+``` sh
+git clone https://github.com/copydataai/grayola.git
+cd grayola
+pnpm install
+
+cp .env.example .env
+
+# Please ensure to update your envs to your actual supabase & postgresURI
+nvim .env
+
+
+pnpm dev
+```
+
+
