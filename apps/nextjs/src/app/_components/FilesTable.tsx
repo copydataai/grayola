@@ -25,7 +25,10 @@ import {
 } from "@acme/ui/dropdown-menu";
 import { LoaderCircleLucide } from "@acme/ui/loader-circle";
 
+import { GetSignedURL } from "~/app/dashboard/project/[projectId]/actions";
 import { api } from "~/trpc/react";
+
+const { useRouter } = require("next/navigation");
 
 type Files = {
   id: number;
@@ -54,6 +57,7 @@ export const columns: ColumnDef<Files>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
+      const router = useRouter();
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -66,7 +70,18 @@ export const columns: ColumnDef<Files>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onSelect={() => console.log("View")}>
+            <DropdownMenuItem
+              onSelect={async () => {
+                const { data, error } = await GetSignedURL(row.original.path);
+                if (error) {
+                  toast.error(error.message);
+                }
+                if (data) {
+                  toast.success("File downloaded");
+                  await router.push(data.signedUrl);
+                }
+              }}
+            >
               <Eye className="mr-2 h-3.5 w-3.5" />
               view
             </DropdownMenuItem>
