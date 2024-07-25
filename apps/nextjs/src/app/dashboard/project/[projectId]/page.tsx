@@ -65,7 +65,9 @@ export default function ProjectIdPage({
         </div>
         <div className="flex w-1/2 flex-col items-center justify-center gap-4">
           {(data?.role === Roles.ProjectManager ||
-            data?.role === Roles.Admin) && <DialogFile projectId={projectId} />}
+            data?.role === Roles.Admin) && (
+            <DialogFile projectId={projectId} title="Add a new file" />
+          )}
           <FilesTable projectId={projectId} role={data?.role} />
         </div>
       </section>
