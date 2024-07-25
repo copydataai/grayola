@@ -123,17 +123,6 @@ export const projectRouter = {
 
             return file;
         }),
-    updateFile: protectedProcedure
-        .input(z.object({ fileId: z.string(), path: z.string() }))
-        .mutation(async ({ ctx, input }) => {
-            const file = await ctx.db
-                .update(Files)
-                .set({ path: input.path })
-                .where(eq(Files.id, input.fileId))
-                .returning();
-
-            return file;
-        }),
     getRoleByProjectId: protectedProcedure
         .input(
             z.object({
@@ -242,7 +231,13 @@ export const projectRouter = {
             return project;
         }),
     updateFile: protectedProcedure
-        .input(z.object({ fileId: z.string(), path: z.string() }))
+        .input(
+            z.object({
+                fileId: z.string(),
+                projectId: z.string(),
+                path: z.string(),
+            }),
+        )
         .mutation(async ({ ctx, input }) => {
             const role = await getRole(ctx.db, input.projectId, ctx.user.id);
             if (role.name !== Roles.ProjectManager) {
@@ -254,9 +249,9 @@ export const projectRouter = {
             }
 
             const file = await ctx.db
-                .update(File)
+                .update(Files)
                 .set({ path: input.path })
-                .where(eq(File.id, input.fileId))
+                .where(eq(Files.id, input.fileId))
                 .returning();
 
             return file;
@@ -274,8 +269,8 @@ export const projectRouter = {
             }
 
             const file = await ctx.db
-                .delete(File)
-                .where(eq(File.id, input.fileId))
+                .delete(Files)
+                .where(eq(Files.id, input.fileId))
                 .returning();
 
             return file;
