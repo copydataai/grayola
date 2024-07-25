@@ -1,7 +1,6 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-import { env } from "~/env";
 import { createClient } from "~/utils/supabase/server";
 
 export async function GET(request: NextRequest) {
@@ -15,11 +14,8 @@ export async function GET(request: NextRequest) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
       const forwardedHost = request.headers.get("x-forwarded-host"); // original origin before load balancer
-      const isLocalEnv = env.NODE_ENV === "development";
-      if (isLocalEnv) {
-        // we can be sure that there is no load balancer in between, so no need to watch for X-Forwarded-Host
-        return NextResponse.redirect(`${origin}${next}`);
-      } else if (forwardedHost) {
+      // we can be sure that there is no load balancer in between, so no need to watch for X-Forwarded-
+      if (forwardedHost) {
         return NextResponse.redirect(`https://${forwardedHost}${next}`);
       } else {
         return NextResponse.redirect(`${origin}${next}`);
