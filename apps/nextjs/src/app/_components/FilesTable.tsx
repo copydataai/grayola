@@ -48,6 +48,7 @@ export const columns: ColumnDef<Files>[] = [
           fileId={row.original.id}
           projectId={row.original.projectId}
           role={row.original.role}
+          path={row.original.path}
           createdAt={row.original.createdAt}
           updatedAt={row.original.updatedAt}
         />
