@@ -241,6 +241,45 @@ export const projectRouter = {
 
             return project;
         }),
+    updateFile: protectedProcedure
+        .input(z.object({ fileId: z.string(), path: z.string() }))
+        .mutation(async ({ ctx, input }) => {
+            const role = await getRole(ctx.db, input.projectId, ctx.user.id);
+            if (role.name !== Roles.ProjectManager) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message:
+                        "Only the project manager is allowed to update the file",
+                });
+            }
+
+            const file = await ctx.db
+                .update(File)
+                .set({ path: input.path })
+                .where(eq(File.id, input.fileId))
+                .returning();
+
+            return file;
+        }),
+    deleteFile: protectedProcedure
+        .input(z.object({ fileId: z.string(), projectId: z.string() }))
+        .mutation(async ({ ctx, input }) => {
+            const role = await getRole(ctx.db, input.projectId, ctx.user.id);
+            if (role.name !== Roles.ProjectManager) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message:
+                        "Only the project manager is allowed to delete the file",
+                });
+            }
+
+            const file = await ctx.db
+                .delete(File)
+                .where(eq(File.id, input.fileId))
+                .returning();
+
+            return file;
+        }),
     delete: protectedProcedure
         .input(z.object({ projectId: z.string() }))
         .mutation(async ({ ctx, input }) => {
