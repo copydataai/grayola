@@ -99,7 +99,7 @@ export function DialogFile(props: DialogFileProps) {
     }
 
     const newFile = await mutation.mutate({
-      path: (data as any).fullPath,
+      path: (data as any).path,
       projectId: props.projectId,
     });
   }

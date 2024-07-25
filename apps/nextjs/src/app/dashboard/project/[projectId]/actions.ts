@@ -11,15 +11,25 @@ export async function UploadFile(fileName: string, file: File) {
     return { data, error };
 }
 
-export async function GetSignedURL(fullPath: string) {
+export async function GetSignedURL(path: string) {
     const supabase = createClient();
 
     const inAnHour = 60 * 60;
     const { data, error } = await supabase.storage
         .from("project_files")
-        .createSignedUrl(fullPath, inAnHour, {
+        .createSignedUrl(path, inAnHour, {
             download: true,
         });
+
+    return { data, error };
+}
+
+export async function DeleteFile(path: string) {
+    const supabase = createClient();
+
+    const { data, error } = await supabase.storage
+        .from("project_files")
+        .remove([path]);
 
     return { data, error };
 }
